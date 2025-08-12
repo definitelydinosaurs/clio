@@ -24,4 +24,10 @@ def main(proposed_path=None):
         conn.close()
 
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) > 1:
+        if main(sys.argv[1]):
+            print(f"URL {sys.argv[1]} is reachable.")
+        else:
+            print(f"URL {sys.argv[1]} is not reachable.")
+    else:
+        print("Please provide a URL as an argument.")
