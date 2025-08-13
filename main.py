@@ -6,7 +6,8 @@ def main(proposed_path=None):
     if not proposed_path:
         print("No URL provided.")
         return False
-    parsed = urlparse(proposed_path if proposed_path else "")
+
+    parsed = urlparse(proposed_path)
     conn_class = http.client.HTTPSConnection if parsed.scheme == "https" else http.client.HTTPConnection
     conn = conn_class(parsed.netloc)
 
