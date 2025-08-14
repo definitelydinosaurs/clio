@@ -2,7 +2,7 @@ import http.client
 import sys
 from urllib.parse import urlparse
 
-def main(proposed_path=None):
+def is_url_reachable(proposed_path=None):
     if not proposed_path:
         print("No URL provided.")
         return False
@@ -22,7 +22,7 @@ def main(proposed_path=None):
         if 300 <= response.status < 400:
             location = response.getheader('Location')
             if location:
-                return main(location)  # Recursively follow redirect
+                return is_url_reachable(location)  # Recursively follow redirect
 
         return response.status != 404
     except Exception as e:
@@ -33,7 +33,7 @@ def main(proposed_path=None):
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
-        if main(sys.argv[1]):
+        if is_url_reachable(sys.argv[1]):
             print(f"URL {sys.argv[1]} is reachable.")
         else:
             print(f"URL {sys.argv[1]} is not reachable.")
