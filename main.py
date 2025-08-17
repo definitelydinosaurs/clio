@@ -60,6 +60,34 @@ def get_root_url(proposed_path):
     finally:
         conn.close()
 
+def get_base_page(url):
+    """Get the HTML content of a page"""
+    try:
+        parsed = urlparse(url)
+        conn_class = http.client.HTTPSConnection if parsed.scheme == "https" else http.client.HTTPConnection
+        conn = conn_class(parsed.netloc)
+
+        path = parsed.path or "/"
+        if parsed.query:
+            path += "?" + parsed.query
+
+        conn.request("GET", path)
+        response = conn.getresponse()
+
+        if response.status == 200:
+            content = response.read().decode('utf-8', errors='ignore')
+            print(content)
+            return content
+        else:
+            print(f"Failed to get page content: HTTP {response.status}")
+            return None
+
+    except Exception as e:
+        print(f"Error getting page content: {e}")
+        return None
+    finally:
+        conn.close()
+
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         if is_url_reachable(sys.argv[1]):
