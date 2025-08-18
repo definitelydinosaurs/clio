@@ -90,8 +90,12 @@ def get_base_page(url):
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
-        if is_url_reachable(sys.argv[1]):
+        root_url = get_root_url(sys.argv[1])
+        if root_url:
+            print(f"Root URL: {root_url}")
+        if is_url_reachable(root_url):
             print(f"URL {sys.argv[1]} is reachable.")
+            get_base_page(root_url)
         else:
             print(f"URL {sys.argv[1]} is not reachable.")
     else:
