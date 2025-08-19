@@ -76,7 +76,6 @@ def get_base_page(url):
 
         if response.status == 200:
             content = response.read().decode('utf-8', errors='ignore')
-            print(content)
             return content
         else:
             print(f"Failed to get page content: HTTP {response.status}")
@@ -91,11 +90,9 @@ def get_base_page(url):
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         root_url = get_root_url(sys.argv[1])
-        if root_url:
-            print(f"Root URL: {root_url}")
         if is_url_reachable(root_url):
-            print(f"URL {sys.argv[1]} is reachable.")
-            get_base_page(root_url)
+            base_page = get_base_page(root_url)
+            print(base_page)
         else:
             print(f"URL {sys.argv[1]} is not reachable.")
     else:
