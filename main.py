@@ -1,6 +1,7 @@
 import http.client
 import sys
 from urllib.parse import urlparse
+import html.parser
 
 def is_url_reachable(proposed_path=None):
     if not proposed_path:
@@ -86,6 +87,12 @@ def get_base_page(url):
         return None
     finally:
         conn.close()
+
+def get_page_assets(page_content):
+    assets = set()
+    parser = html.parser.HTMLParser()
+    temp_assets = parser.feed(page_content)
+    return assets
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
