@@ -18,13 +18,6 @@ def is_url_reachable(proposed_path=None):
             path += "?" + parsed.query
         conn.request("HEAD", path)
         response = conn.getresponse()
-
-        # Handle 3xx redirects
-        if 300 <= response.status < 400:
-            location = response.getheader('Location')
-            if location:
-                return is_url_reachable(location)  # Recursively follow redirect
-
         return response.status != 404
     except Exception as e:
         print("Error:", e)
