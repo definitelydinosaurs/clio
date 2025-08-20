@@ -92,7 +92,11 @@ if __name__ == "__main__":
         root_url = get_root_url(sys.argv[1])
         if is_url_reachable(root_url):
             base_page = get_base_page(root_url)
-            print(base_page)
+            # print(base_page)
+            assets = get_page_assets(base_page)
+            print("Assets found:")
+            for asset in assets:
+                print(" -", asset)
         else:
             print(f"URL {sys.argv[1]} is not reachable.")
     else:
