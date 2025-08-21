@@ -1,7 +1,21 @@
 import http.client
 import sys
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urljoin
 import html.parser
+
+class AssetParser(html.parser.HTMLParser):
+    def __init__(self, base_url):
+        super().__init__()
+        self.assets = set()
+        self.base_url = base_url
+
+    def handle_starttag(self, tag, attrs):
+        attr_dict = dict(attrs)
+        if tag == "img" and "src" in attr_dict:
+            self.assets.add(urljoin(self.base_url, attr_dict['src']))
+
+    def get_assets(self):
+        return self.assets
 
 def is_url_reachable(proposed_path=None):
     if not proposed_path:
