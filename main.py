@@ -95,11 +95,10 @@ def get_base_page(url):
     finally:
         conn.close()
 
-def get_page_assets(page_content):
-    assets = set()
-    parser = html.parser.HTMLParser()
-    temp_assets = parser.feed(page_content)
-    return assets
+def get_page_assets(root_url, page_content):
+    parser = AssetParser(root_url)
+    parser.feed(page_content)
+    return parser.get_assets()
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
@@ -107,7 +106,7 @@ if __name__ == "__main__":
         if is_url_reachable(root_url):
             base_page = get_base_page(root_url)
             # print(base_page)
-            assets = get_page_assets(base_page)
+            assets = get_page_assets(root_url, base_page)
             print("Assets found:")
             for asset in assets:
                 print(" -", asset)
