@@ -23,6 +23,9 @@ class AssetParser(html.parser.HTMLParser):
     def get_assets(self):
         return self.assets
 
+def url_is_absolute(url):
+    return bool(urlparse(url).netloc)
+
 def is_url_reachable(proposed_path=None):
     if not proposed_path:
         print("No URL provided.")
