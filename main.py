@@ -12,13 +12,13 @@ class AssetParser(html.parser.HTMLParser):
     def handle_starttag(self, tag, attrs):
         attr_dict = dict(attrs)
         if tag == "img" and "src" in attr_dict:
-            self.assets.add(urljoin(self.base_url, attr_dict['src']))
+            self.assets.add(attr_dict['src'] if url_is_absolute(attr_dict['src']) else urljoin(self.base_url, attr_dict['src']))
         elif tag == 'video' and 'src' in attr_dict:
-            self.assets.add(urljoin(self.base_url, attr_dict['src']))
+            self.assets.add(attr_dict['src'] if url_is_absolute(attr_dict['src']) else urljoin(self.base_url, attr_dict['src']))
         elif tag == 'audio' and 'src' in attr_dict:
-            self.assets.add(urljoin(self.base_url, attr_dict['src']))
+            self.assets.add(attr_dict['src'] if url_is_absolute(attr_dict['src']) else urljoin(self.base_url, attr_dict['src']))
         elif tag == 'source' and 'src' in attr_dict:
-            self.assets.add(urljoin(self.base_url, attr_dict['src']))
+            self.assets.add(attr_dict['src'] if url_is_absolute(attr_dict['src']) else urljoin(self.base_url, attr_dict['src']))
 
     def get_assets(self):
         return self.assets
