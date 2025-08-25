@@ -125,7 +125,7 @@ if __name__ == "__main__":
             assets = get_page_assets(root_url, base_page)
             print("Assets found:")
             for asset in assets:
-                print(" -", asset)
+                print(" -", sanitize_filename(asset))
         else:
             print(f"URL {sys.argv[1]} is not reachable.")
     else:
