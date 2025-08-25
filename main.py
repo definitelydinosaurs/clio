@@ -2,6 +2,8 @@ import http.client
 import sys
 from urllib.parse import urlparse, urljoin
 import html.parser
+import re
+import os
 
 class AssetParser(html.parser.HTMLParser):
     def __init__(self, base_url):
@@ -16,6 +18,17 @@ class AssetParser(html.parser.HTMLParser):
 
     def get_assets(self):
         return self.assets
+
+def sanitize_filename(url):
+    parsed = urlparse(url)
+    domain = parsed.netloc.replace('.', '_')
+    path = parsed.path.strip('/')
+    if not path:
+        path = "index.html"
+    path = re.sub(r'[<>:"|?*]', '_', path)
+    if '.' not in os.path.basename(path):
+        path += '.html'
+    return os.path.join(domain, path)
 
 def url_is_absolute(url):
     return bool(urlparse(url).netloc)
