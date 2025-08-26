@@ -22,7 +22,7 @@ class AssetParser(html.parser.HTMLParser):
 def save_file(content, path):
     try:
         os.makedirs(os.path.dirname(path), exist_ok=True)
-        with open(path, 'wb') as f:
+        with open(path, 'w') as f:
             f.write(content)
     except Exception as e:
         print(f"Error saving {path}: {e}")
@@ -129,6 +129,7 @@ if __name__ == "__main__":
         root_url = get_root_url(sys.argv[1])
         if is_url_reachable(root_url):
             base_page = get_page(root_url)
+            save_file(base_page, sanitize_filename(root_url))
             # print(base_page)
             assets = get_page_assets(root_url, base_page)
             print("Assets found:")
