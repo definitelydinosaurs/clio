@@ -19,6 +19,14 @@ class AssetParser(html.parser.HTMLParser):
     def get_assets(self):
         return self.assets
 
+def save_file(content, path):
+    try:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, 'wb') as f:
+            f.write(content)
+    except Exception as e:
+        print(f"Error saving {path}: {e}")
+
 def sanitize_filename(url):
     parsed = urlparse(url)
     domain = parsed.netloc.replace('.', '_')
