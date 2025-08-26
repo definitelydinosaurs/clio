@@ -92,7 +92,7 @@ def get_root_url(proposed_path):
     finally:
         conn.close()
 
-def get_base_page(url):
+def get_page(url):
     """Get the HTML content of a page"""
     try:
         parsed = urlparse(url)
@@ -128,7 +128,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         root_url = get_root_url(sys.argv[1])
         if is_url_reachable(root_url):
-            base_page = get_base_page(root_url)
+            base_page = get_page(root_url)
             # print(base_page)
             assets = get_page_assets(root_url, base_page)
             print("Assets found:")
