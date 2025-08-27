@@ -132,11 +132,11 @@ if __name__ == "__main__":
         if is_url_reachable(root_url):
             base_page = get_page(root_url)
             save_file(base_page, sanitize_filename(root_url))
-            # print(base_page)
             assets = get_page_assets(root_url, base_page)
-            print("Assets found:")
             for asset in assets:
                 print(" -", sanitize_filename(asset))
+                content = get_page(asset, binary=True)
+                save_file(content, sanitize_filename(asset), 'wb')
         else:
             print(f"URL {sys.argv[1]} is not reachable.")
     else:
