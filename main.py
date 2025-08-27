@@ -92,8 +92,7 @@ def get_root_url(proposed_path):
     finally:
         conn.close()
 
-def get_page(url):
-    """Get the HTML content of a page"""
+def get_page(url, binary=False):
     try:
         parsed = urlparse(url)
         conn_class = http.client.HTTPSConnection if parsed.scheme == "https" else http.client.HTTPConnection
@@ -107,14 +106,17 @@ def get_page(url):
         response = conn.getresponse()
 
         if response.status == 200:
-            content = response.read().decode('utf-8', errors='ignore')
-            return content
+            content = response.read()
+            if binary:
+                return content  # Return raw bytes for binary files
+            else:
+                return content.decode('utf-8', errors='ignore')  # Decode for text files
         else:
-            print(f"Failed to get page content: HTTP {response.status}")
+            print(f"Failed to get content: HTTP {response.status}")
             return None
 
     except Exception as e:
-        print(f"Error getting page content: {e}")
+        print(f"Error getting content: {e}")
         return None
     finally:
         conn.close()
