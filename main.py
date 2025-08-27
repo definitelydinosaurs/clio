@@ -19,10 +19,10 @@ class AssetParser(html.parser.HTMLParser):
     def get_assets(self):
         return self.assets
 
-def save_file(content, path):
+def save_file(content, path, mode='w'):
     try:
         os.makedirs(os.path.dirname(path), exist_ok=True)
-        with open(path, 'w') as f:
+        with open(path, mode) as f:
             f.write(content)
     except Exception as e:
         print(f"Error saving {path}: {e}")
