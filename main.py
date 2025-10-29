@@ -85,7 +85,7 @@ def get_root_url(proposed_path):
             if location:
                 return get_root_url(location)  # Recursively follow redirect
 
-        return parsed._replace(path="/").geturl()
+        return proposed_path
     except Exception as e:
         print("Error:", e)
         return None
